@@ -16,28 +16,40 @@
 
       # List packages installed in system profile. To search by name, run:
       # $ nix-env -qaP | grep wget
-      environment.systemPackages =
+      environment.systemPackages = with pkgs;
         [ 
-	    pkgs.neovim
-	    pkgs.mkalias
-	    pkgs.obsidian
+	    neovim
+	    mkalias
+	    obsidian
+	    telegram-desktop
+	    mas
+	    k9s
+	    bitwarden-desktop
+	    openvpn
+	    stow
         ];
 
       system.primaryUser = "archeoss";
       homebrew = {
         enable = true;
 	brews = [
-          "mas"
+	  "gemini-cli"
+	  "dnsmasq"
 	];
 	casks = [
 	  "ghostty"
 	  "hammerspoon"
 	  "iina"
 	  "the-unarchiver"
+	  "seafile-client"
+	  "openvpn-connect"
 	];
-	onActivation.cleanup = "zap";
+	onActivation = {
+	  cleanup = "zap";
+	  autoUpdate = true;
+	  upgrade = true;
+	};
 	masApps = {
-	  "Todoist" = 572688855;
 	};
       };
 
@@ -64,6 +76,23 @@
 	    ${pkgs.mkalias}/bin/mkalias "$src" "/Applications/Nix Apps/$app_name"
 	  done
       '';
+
+      system.defaults = {
+      	dock.autohide = true;
+	dock.persistent-apps = [
+	  "${pkgs.obsidian}/Applications/Obsidian.app"
+	  "${pkgs.telegram-desktop}/Applications/Telegram.app"
+	  "/System/Applications/Mail.app"
+	  "/Applications/Todoist.app"
+	  "/Applications/Ghostty.app"
+	  "/Applications/Zen.app"
+	];
+	finder.FXPreferredViewStyle = "clmv";
+	loginwindow.GuestEnabled = false;
+	NSGlobalDomain.AppleICUForce24HourTime = true;
+	NSGlobalDomain.AppleInterfaceStyle = "Dark";
+	NSGlobalDomain.KeyRepeat = 2;
+      };
 
       # Necessary for using flakes on this system.
       nix.settings.experimental-features = "nix-command flakes";

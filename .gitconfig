@@ -1,0 +1,19 @@
+[user]
+    email = archeoss@proton.me
+    name = Simeon Romanov
+
+[credential]
+    helper = store
+
+[core]
+    pager = delta
+
+[interactive]
+    difffilter = delta --color-only
+
+[delta]
+    navigate = true
+    dark = true
+
+[merge]
+    conflictstyle = zdiff3
