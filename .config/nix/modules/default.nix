@@ -1,0 +1,4 @@
+[
+  ./users.nix
+  ./packages.nix 
+]

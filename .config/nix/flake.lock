@@ -58,11 +58,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1750811787,
-        "narHash": "sha256-rD/978c35JXz6JLAzciTIOCMenPumF6zrQOj4rVZeHE=",
+        "lastModified": 1750898778,
+        "narHash": "sha256-DXI7+SKDlTyA+C4zp0LoIywQ+BfdH5m4nkuxbWgV4UU=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "992f916556fcfaa94451ebc7fc6e396134bbf5b1",
+        "rev": "322d8a3c6940039f7cff179a8b09c5d7ca06359d",
         "type": "github"
       },
       "original": {
@@ -76,7 +76,49 @@
       "inputs": {
         "nix-darwin": "nix-darwin",
         "nix-homebrew": "nix-homebrew",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "rust-overlay": "rust-overlay",
+        "spotify-adblock": "spotify-adblock"
+      }
+    },
+    "rust-overlay": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1750991972,
+        "narHash": "sha256-jzadGZL1MtqmHb5AZcjZhHpNulOdMZPxf8Wifg8e5VA=",
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "rev": "b6509555d8ffaa0727f998af6ace901c5b78dc26",
+        "type": "github"
+      },
+      "original": {
+        "owner": "oxalica",
+        "repo": "rust-overlay",
+        "type": "github"
+      }
+    },
+    "spotify-adblock": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1747771465,
+        "narHash": "sha256-aeNFOPPWtamrkb9/pdSqOWxtcr07f9Gqo0RRd5gQNZs=",
+        "owner": "NL-TCH",
+        "repo": "nur-packages",
+        "rev": "9762f014bf6f6115da22547eba3698a95be3ab01",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NL-TCH",
+        "repo": "nur-packages",
+        "type": "github"
       }
     }
   },

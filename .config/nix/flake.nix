@@ -6,125 +6,47 @@
     nix-darwin.url = "github:nix-darwin/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
+    spotify-adblock = {
+      url = "github:NL-TCH/nur-packages";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    rust-overlay = {
+      url = "github:oxalica/rust-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, nix-homebrew }:
+  outputs = { self, nix-darwin, nixpkgs, nix-homebrew, spotify-adblock, rust-overlay }@inputs:
   let
+    vars = {
+      user = "archeoss";
+      terminal = "ghostty";
+      editor = "nvim";
+    };
     configuration = { pkgs, config, ... }: {
+      imports = ( import ./modules );
 
-      nixpkgs.config.allowUnfree = true;
+      nixpkgs.overlays = [ rust-overlay.overlays.default ];
 
-      # List packages installed in system profile. To search by name, run:
-      # $ nix-env -qaP | grep wget
-      environment.systemPackages = with pkgs;
-        [ 
-	    neovim
-	    mkalias
-	    obsidian
-	    telegram-desktop
-	    mas
-	    k9s
-	    bitwarden-desktop
-	    openvpn
-	    stow
-        ];
-
-      system.primaryUser = "archeoss";
-      homebrew = {
-        enable = true;
-	brews = [
-	  "gemini-cli"
-	  "dnsmasq"
-	];
-	casks = [
-	  "ghostty"
-	  "hammerspoon"
-	  "iina"
-	  "the-unarchiver"
-	  "seafile-client"
-	  "openvpn-connect"
-	];
-	onActivation = {
-	  cleanup = "zap";
-	  autoUpdate = true;
-	  upgrade = true;
-	};
-	masApps = {
-	};
-      };
-
-      fonts.packages = [
-           pkgs.nerd-fonts.jetbrains-mono
-      ];
-
-      system.activationScripts.applications.text = let
-      	env = pkgs.buildEnv {
-	  name = "system-applications";
-	  paths = config.environment.systemPackages;
-	  pathsToLink = "/Applications";
-	};
-      in 
-        pkgs.lib.mkForce ''
-          # Set up applications
-	  echo "setting up /Applications..." >&2
-	  rm -rf /Applications/Nix\ Apps
-	  mkdir -p /Applications/Nix\ Apps
-	  find ${env}/Applications -maxdepth 1 -type l -exec readlink '{}' + |
-	  while read -r src; do
-	    app_name=$(basename "$src")
-	    echo "copying $src" >&2
-	    ${pkgs.mkalias}/bin/mkalias "$src" "/Applications/Nix Apps/$app_name"
-	  done
-      '';
-
-      system.defaults = {
-      	dock.autohide = true;
-	dock.persistent-apps = [
-	  "${pkgs.obsidian}/Applications/Obsidian.app"
-	  "${pkgs.telegram-desktop}/Applications/Telegram.app"
-	  "/System/Applications/Mail.app"
-	  "/Applications/Todoist.app"
-	  "/Applications/Ghostty.app"
-	  "/Applications/Zen.app"
-	];
-	finder.FXPreferredViewStyle = "clmv";
-	loginwindow.GuestEnabled = false;
-	NSGlobalDomain.AppleICUForce24HourTime = true;
-	NSGlobalDomain.AppleInterfaceStyle = "Dark";
-	NSGlobalDomain.KeyRepeat = 2;
-      };
-
-      # Necessary for using flakes on this system.
       nix.settings.experimental-features = "nix-command flakes";
-
-      # Enable alternative shell support in nix-darwin.
-      # programs.fish.enable = true;
-
-      # Set Git commit hash for darwin-version.
       system.configurationRevision = self.rev or self.dirtyRev or null;
-
-      # Used for backwards compatibility, please read the changelog before changing.
-      # $ darwin-rebuild changelog
       system.stateVersion = 6;
-
-      # The platform the configuration will be used on.
       nixpkgs.hostPlatform = "aarch64-darwin";
     };
   in
   {
-    # Build darwin flake using:
-    # $ darwin-rebuild build --flake .#simple
     darwinConfigurations."ArchMacPro" = nix-darwin.lib.darwinSystem {
+      specialArgs = { inherit spotify-adblock vars; };
       modules = [ 
         configuration 
-	nix-homebrew.darwinModules.nix-homebrew
-	{
-	  nix-homebrew = {
+        nix-homebrew.darwinModules.nix-homebrew
+        {
+	        nix-homebrew = {
             enable = true;
-	    enableRosetta = true;
-	    user = "archeoss";
-	  };
-	}
+	          enableRosetta = true;
+	          user = vars.user;
+	        };
+        }
       ];
     };
   };
