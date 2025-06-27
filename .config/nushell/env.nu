@@ -235,6 +235,9 @@ $env.GOBIN = $"($env.GOPATH)/bin"
 $env.BUN_INSTALL = $"($env.HOME)/.bun" 
 $env.PATH = ($env.PATH | prepend $"($env.BUN_INSTALL)/bin")
 
+# Secrets
+open $"($env.HOME)/secrets/.env" | from toml | load-env
+
 # sccache
 # $env.SCCACHE_DIRECT = true 
 $env.SCCACHE_CACHE_SIZE = "12G"
