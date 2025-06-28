@@ -19,13 +19,14 @@
 	    nodejs
 	    gcc
 	    go
-	    rust-bin.stable.latest.default
+	    rust-bin.nightly.latest.default
 	    bun
 	    neovide
 	    nushell
 	    zoxide
 	    eza
       ripgrep-all
+      ripgrep
       bat
       du-dust
       fastfetch
@@ -47,6 +48,9 @@
       opencode
       zathura
       vscode
+      docker
+      docker-compose
+      libiconv
     ];
   environment.shells = [ pkgs.nushell ];
   

@@ -13,6 +13,8 @@ alias du = dust
 
 alias neofetch = fastfetch
 
+alias npx = bunx
+
 alias ka = killall
 alias g = git
 alias sdn = shutdown -h now

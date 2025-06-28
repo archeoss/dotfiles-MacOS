@@ -924,6 +924,12 @@ def make-alias [] {
 ]
     | each { | command | $"alias ($command)" } | make-alias
 
+# bun
+[
+    "npx = bunx",
+]
+    | each { | command | $"alias ($command)" } | make-alias
+
 # These common commands are just too long! Abbreviate them.
 [
 	"ka = killall",
