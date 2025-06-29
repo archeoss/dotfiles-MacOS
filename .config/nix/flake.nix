@@ -41,11 +41,11 @@
         configuration 
         nix-homebrew.darwinModules.nix-homebrew
         {
-	        nix-homebrew = {
+          nix-homebrew = {
             enable = true;
-	          enableRosetta = true;
-	          user = vars.user;
-	        };
+            enableRosetta = true;
+            user = vars.user;
+          };
         }
       ];
     };
