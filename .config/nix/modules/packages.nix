@@ -19,7 +19,7 @@
 	    nodejs
 	    gcc
 	    go
-	    rust-bin.nightly.latest.default
+	    rust-bin.stable.latest.default
 	    bun
 	    neovide
 	    nushell
