@@ -51,6 +51,12 @@
       docker
       docker-compose
       libiconv
+      python3
+      qbittorrent 
+      raycast
+      colima
+      bottom
+      htop
     ];
   environment.shells = [ pkgs.nushell ];
   
@@ -71,6 +77,8 @@
       "espanso"
       "legcord"
       "obs"
+      "steam"
+      "anytype"
     ];
     onActivation = {
     cleanup = "zap";

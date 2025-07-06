@@ -18,6 +18,38 @@
         ${pkgs.mkalias}/bin/mkalias "$src" "/Applications/Nix Apps/$app_name"
       done
     '';
+ 
+  nix.linux-builder = {
+    enable = true;
+    ephemeral = true;
+    # maxJobs = 4;
+    supportedFeatures = [ "kvm" "benchmark" "big-parallel" "nixos-test" ];
+    config = {
+      virtualisation = {
+        darwin-builder = {
+          diskSize = 40 * 1024;
+          memorySize = 24 * 1024;
+        };
+        cores = 8;
+      };
+    };
+    systems = [ "x86_64-linux" "aarch64-linux" ];
+    config.boot.binfmt.emulatedSystems = ["x86_64-linux"];
+  };
+  # Add needed system-features to the nix daemon
+  # Starting with Nix 2.19, this will be automatic
+  nix.settings.system-features = [
+    "nixos-test"
+    "apple-virt"
+  ];
+  # nix.settings.trusted-users = [ "root" "@admin" "archeoss" ];
+  launchd.daemons.linux-builder = {
+    serviceConfig = {
+      StandardOutPath = "/var/log/darwin-builder.log";
+      StandardErrorPath = "/var/log/darwin-builder.log";
+    };
+  };
+  services.openssh.enable = true;
 
   system = {
     defaults = {
