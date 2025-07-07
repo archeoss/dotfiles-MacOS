@@ -18,7 +18,6 @@
         ${pkgs.mkalias}/bin/mkalias "$src" "/Applications/Nix Apps/$app_name"
       done
     '';
- 
   nix.linux-builder = {
     enable = true;
     ephemeral = true;
@@ -26,6 +25,12 @@
     supportedFeatures = [ "kvm" "benchmark" "big-parallel" "nixos-test" ];
     config = {
       virtualisation = {
+        # vmVariant = {
+        #   virtualisation.qemu.networkingOptions = lib.mkForce [
+        #     "-device virtio-net-pci,netdev=user.0"
+        #     ''-netdev vmnet-shared,id=user.0,"$QEMU_NET_OPTS"''
+        #   ];
+        # };
         darwin-builder = {
           diskSize = 40 * 1024;
           memorySize = 24 * 1024;
@@ -36,6 +41,8 @@
     systems = [ "x86_64-linux" "aarch64-linux" ];
     config.boot.binfmt.emulatedSystems = ["x86_64-linux"];
   };
+
+  nix.settings.trusted-users = [ "archeoss" ];
   # Add needed system-features to the nix daemon
   # Starting with Nix 2.19, this will be automatic
   nix.settings.system-features = [
@@ -80,6 +87,9 @@
     #   remapCapsLockToEscape = true;
     # };
   };
+
+  security.pam.services.sudo_local.enable = true;
+  security.pam.services.sudo_local.touchIdAuth = true;
 
   launchd.user.agents.UserKeyMappingKbApple.serviceConfig = {
     ProgramArguments =

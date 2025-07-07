@@ -57,6 +57,10 @@
       colima
       bottom
       htop
+      yubico-pam
+      yubikey-manager
+      pgadmin4-desktopmode
+      tokei
     ];
   environment.shells = [ pkgs.nushell ];
   
@@ -79,6 +83,7 @@
       "obs"
       "steam"
       "anytype"
+      "yubico-authenticator"
     ];
     onActivation = {
     cleanup = "zap";
