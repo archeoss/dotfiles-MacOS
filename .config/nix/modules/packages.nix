@@ -61,6 +61,7 @@
       yubikey-manager
       pgadmin4-desktopmode
       tokei
+      uv
     ];
   environment.shells = [ pkgs.nushell ];
   

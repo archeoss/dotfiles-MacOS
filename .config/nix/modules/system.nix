@@ -60,26 +60,93 @@
 
   system = {
     defaults = {
-      dock.autohide = true;
-      dock.persistent-apps = [
-        "${pkgs.obsidian}/Applications/Obsidian.app"
-        "${pkgs.neovide}/Applications/Neovide.app"
-        "${pkgs.telegram-desktop}/Applications/Telegram.app"
-        "/System/Applications/Mail.app"
-        "/Applications/Ghostty.app"
-        "/Applications/Zen.app"
-      ];
-      finder.FXPreferredViewStyle = "clmv";
+      dock = {
+        autohide = true;
+        showhidden = true; # Translucent.
+
+        mouse-over-hilite-stack = true;
+
+        show-recents = false;
+        magnification = false;
+
+        enable-spring-load-actions-on-all-items = true;
+        persistent-apps = [
+          "${pkgs.obsidian}/Applications/Obsidian.app"
+          "${pkgs.neovide}/Applications/Neovide.app"
+          "${pkgs.telegram-desktop}/Applications/Telegram.app"
+          "/System/Applications/Mail.app"
+          "/Applications/Ghostty.app"
+          "/Applications/Zen.app"
+        ];
+      };
+      CustomSystemPreferences."com.apple.dock" = {
+        autohide-time-modifier    = 0.0;
+        autohide-delay            = 0.0;
+        expose-animation-duration = 0.0;
+        springboard-show-duration = 0.0;
+        springboard-hide-duration = 0.0;
+        springboard-page-duration = 0.0;
+        # Disable hot corners.
+        wvous-tl-corner = 0;
+        wvous-tr-corner = 0;
+        wvous-bl-corner = 0;
+        wvous-br-corner = 0;
+
+        launchanim = 0;
+      };
+      
       loginwindow.GuestEnabled = false;
       NSGlobalDomain = {
+        NSDocumentSaveNewDocumentsToCloud = false;
         AppleICUForce24HourTime = true;
         AppleInterfaceStyle = "Dark";
         KeyRepeat = 2;
         AppleScrollerPagingBehavior = true;
-        AppleShowAllFiles = true;
+        AppleShowAllFiles = true;    
+        AppleShowAllExtensions = true;
+        "com.apple.springing.enabled" = true;
+        "com.apple.springing.delay"   = 0.0;
         "com.apple.trackpad.trackpadCornerClickBehavior" = 1;
       };
+      LaunchServices = {
+        LSQuarantine = false;
+      };
+      CustomSystemPreferences."com.apple.AdLib" = {
+        allowApplePersonalizedAdvertising = false;
+        allowIdentifierForAdvertising     = false;
+        forceLimitAdTracking              = true;
+        personalizedAdsMigrated           = false;
+      };
       WindowManager.EnableTiledWindowMargins = false;
+
+      CustomSystemPreferences."com.apple.desktopservices" = {
+        DSDontWriteNetworkStores = true;
+        DSDontWriteUSBStores     = true;
+      };
+      finder = {
+        AppleShowAllExtensions = true;
+        AppleShowAllFiles      = true;
+
+        FXEnableExtensionChangeWarning = true;
+        FXPreferredViewStyle           = "Nlsv"; # List style.
+        FXRemoveOldTrashItems          = true;
+
+        _FXShowPosixPathInTitle      = true;
+        _FXSortFoldersFirst          = true;
+        _FXSortFoldersFirstOnDesktop = false;
+
+        NewWindowTarget = "Home";
+
+        QuitMenuItem = true; # Allow quitting of Finder application
+
+        ShowExternalHardDrivesOnDesktop = true;
+        ShowMountedServersOnDesktop     = true;
+        ShowPathbar                     = true;
+        ShowRemovableMediaOnDesktop     = true;
+        ShowStatusBar                   = true;
+      };
+      screencapture.location = "~/Documents";
+
     };
     # keyboard = {
     #   enableKeyMapping = true;
