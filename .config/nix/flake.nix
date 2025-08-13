@@ -14,9 +14,18 @@
       url = "github:oxalica/rust-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    lix = {
+      url = "https://git.lix.systems/lix-project/lix/archive/main.tar.gz";
+      flake = false;
+    };
+    lix-module = {
+      url = "https://git.lix.systems/lix-project/nixos-module/archive/main.tar.gz";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.lix.follows = "lix";
+    };
   };
 
-  outputs = { self, nix-darwin, nixpkgs, nix-homebrew, spotify-adblock, rust-overlay }@inputs:
+  outputs = { self, nix-darwin, nixpkgs, nix-homebrew, spotify-adblock, rust-overlay, lix, lix-module }@inputs:
   let
     vars = {
       user = "archeoss";
@@ -39,6 +48,7 @@
       specialArgs = { inherit spotify-adblock vars; };
       modules = [ 
         configuration 
+        lix-module.nixosModules.default 
         nix-homebrew.darwinModules.nix-homebrew
         {
           nix-homebrew = {

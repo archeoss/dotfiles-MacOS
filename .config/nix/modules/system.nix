@@ -48,6 +48,8 @@
   nix.settings.system-features = [
     "nixos-test"
     "apple-virt"
+    "big-parallel"
+    "kvm"
   ];
   # nix.settings.trusted-users = [ "root" "@admin" "archeoss" ];
   launchd.daemons.linux-builder = {

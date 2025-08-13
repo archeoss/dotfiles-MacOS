@@ -62,12 +62,15 @@
       pgadmin4-desktopmode
       tokei
       uv
+      helix
+      helmfile
     ];
   environment.shells = [ pkgs.nushell ];
   
   homebrew = {
     enable = true;
     brews = [
+      "helm"
       "gemini-cli"
       "dnsmasq"
     ];
@@ -87,9 +90,9 @@
       "yubico-authenticator"
     ];
     onActivation = {
-    cleanup = "zap";
-    autoUpdate = true;
-    upgrade = true;
+      cleanup = "zap";
+      autoUpdate = true;
+      upgrade = true;
     };
     masApps = {
     };

@@ -1,0 +1,36 @@
+theme = "onedark"
+
+[editor]
+auto-completion    = true
+bufferline         = "multiple"
+color-modes        = true
+cursorline         = true
+file-picker.hidden = false
+idle-timeout       = 0
+shell              = [ "nu", "--commands" ]
+text-width         = 100
+
+[editor.cursor-shape] 
+insert = "bar"
+normal = "block"
+select = "underline"
+
+[editor.statusline]
+left = ["mode", "spinner"]
+center = ["file-name"]
+right = ["diagnostics", "selections", "position", "file-encoding", "file-line-ending", "file-type"]
+diagnostics = ["warning", "error"]
+workspace-diagnostics = ["warning", "error"]
+
+[editor.statusline.mode]
+insert = "INSERT"
+normal = "NORMAL"
+select = "SELECT"
+
+[editor.indent-guides] 
+character = "▏"
+render    = true
+
+[editor.whitespace]
+characters.tab = "→"
+render.tab     = "all"
