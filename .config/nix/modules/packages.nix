@@ -1,5 +1,7 @@
-{ pkgs, config, spotify-adblock, ... }: {
+{ pkgs, config, spotify-adblock, doxx, ... }: {
   nixpkgs.config.allowUnfree = true;
+
+  # pkgs.doxx-aarch64 = doxx.packages.aarch64-darwin.doxx.overrideAttrs (finalAttrs: oldAttrs: { buildInputs = [ pkgs.apple-sdk_15 ]; });
   environment.systemPackages = with pkgs;
     [ 
       neovim
@@ -52,7 +54,6 @@
       docker-compose
       libiconv
       python3
-      qbittorrent 
       raycast
       colima
       bottom
@@ -64,7 +65,22 @@
       uv
       helix
       helmfile
+      revive
+      golangci-lint-langserver
+      yt-dlp
+      fd
+      zellij
+      fzf
+      xh
+      dua
+      mprocs
+      presenterm
+      anki-bin
+      devenv
+      apple-sdk_15
+      doxx.packages.aarch64-darwin.doxx
     ];
+      
   environment.shells = [ pkgs.nushell ];
   
   homebrew = {

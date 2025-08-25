@@ -23,9 +23,15 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.lix.follows = "lix";
     };
+    doxx = {
+      url = "github:archeoss/doxx?ref=fix-nix-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.rust-overlay.follows = "rust-overlay";
+      inputs.flake-utils.follows = "lix-module/flake-utils";
+    };
   };
 
-  outputs = { self, nix-darwin, nixpkgs, nix-homebrew, spotify-adblock, rust-overlay, lix, lix-module }@inputs:
+  outputs = { self, nix-darwin, nixpkgs, nix-homebrew, spotify-adblock, rust-overlay, lix, lix-module, doxx }@inputs:
   let
     vars = {
       user = "archeoss";
@@ -38,6 +44,7 @@
       nixpkgs.overlays = [ rust-overlay.overlays.default ];
 
       nix.settings.experimental-features = "nix-command flakes";
+      nix.settings.ssl-cert-file = "/etc/ssl/certs/ca-certificates.crt";
       system.configurationRevision = self.rev or self.dirtyRev or null;
       system.stateVersion = 6;
       nixpkgs.hostPlatform = "aarch64-darwin";
@@ -45,7 +52,7 @@
   in
   {
     darwinConfigurations."ArchMacPro" = nix-darwin.lib.darwinSystem {
-      specialArgs = { inherit spotify-adblock vars; };
+      specialArgs = { inherit spotify-adblock vars doxx; };
       modules = [ 
         configuration 
         lix-module.nixosModules.default 
